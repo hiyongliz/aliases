@@ -19,15 +19,15 @@ def main():
         for line in rc_file:
             if line.strip().startswith("#"):
                 continue
-            if "[ -f ~/.alisase ] && source ~/.alisase" in line:
+            if "[ -f ~/.aliases ] && source ~/.aliases" in line:
                 print("Already installed")
                 return
 
     # Move .aliases to ~/.alisase
-    os.system('cp .aliases ~/.alisase')
+    os.system('cp .aliases ~/.aliases')
 
     with open(rc_filepath, 'a', encoding="utf-8") as f:
-        f.write('\n[ -f ~/.alisase ] && source ~/.alisase\n')
+        f.write('\n[ -f ~/.aliases ] && source ~/.aliases\n')
 
 
 if __name__ == "__main__":
