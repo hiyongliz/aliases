@@ -83,5 +83,3 @@ alias rmenv='pyenv uninstall'
 alias wk='workon'
 alias lea='deactivate'
 alias mkv='mkvirtualenv'
-
-# 
