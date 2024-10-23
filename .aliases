@@ -25,7 +25,7 @@ func dbu () {
   docker build -t $1 .
 }
 
-# git aliases
+# git aliases create by antfu https://github.com/antfu
 alias grt='cd "$(git rev-parse --show-toplevel)"'
 alias gs='git status'
 alias gp='git push'
