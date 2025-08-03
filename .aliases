@@ -83,7 +83,7 @@ func gclz()
 alias p='pip'
 alias pi='pip install'
 alias pig='pip install -U'
-alias pir='pip install -r  -r requirements.txt'
+alias pir='pip install -r requirements.txt'
 alias pu='pip uninstall'
 alias pug='pip uninstall -y'
 
