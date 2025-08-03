@@ -20,8 +20,8 @@ alias dlog='docker logs -f'
 alias dcp='docker cp'
 alias dr='docker run -d'
 alias drr= 'docker run -it --rm'
-
-func dbu () {
+func dbu()
+{
   docker build -t $1 .
 }
 
@@ -32,7 +32,6 @@ alias gp='git push'
 alias gpf='git push --force'
 alias gpft='git push --follow-tags'
 alias gpl='git pull --rebase'
-alias gcl='git clone'
 alias gst='git stash'
 alias grm='git rm'
 alias gmv='git mv'
@@ -59,6 +58,26 @@ alias gxn='git clean -dn'
 alias gx='git clean -df'
 alias gsha='git rev-parse HEAD | pbcopy'
 alias ghci='gh run list -L 1'
+# Git clone with my gihub repositories
+func gclz()
+{
+  if [ -z $1 ]; then
+    echo "Usage: gclz <repo_url_or_name>"
+  else
+    current_dir=$(pwd)
+    cd ~/i
+    case "$1" in
+      http://*|git:*|https://*)
+        git clone $1
+        ;;
+      *)
+        git clone git@github.com:hiyongliz/$1.git
+        ;;
+    esac
+
+    cd "$current_dir"
+  fi
+}
 
 # pip aliases
 alias p='pip'
