@@ -112,3 +112,7 @@ func h()
     history | grep "$1"
   fi
 }
+
+# tar aliases
+alias tarcg='tar -cvfg'
+alias tarcg='tar -xvfg'
