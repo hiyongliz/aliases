@@ -102,3 +102,13 @@ alias rmenv='pyenv uninstall'
 alias wk='workon'
 alias lea='deactivate'
 alias mkv='mkvirtualenv'
+
+# history aliases
+func h()
+{
+  if [ -z $1 ]; then
+    history
+  else
+    history | grep "$1"
+  fi
+}
