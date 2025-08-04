@@ -9,7 +9,6 @@ alias dpll='docker pull'
 alias dpla='docker pull --platform linux/amd64'
 alias dpsh='docker push'
 alias dtg='docker tag'
-
 alias drm='docker rm'
 alias drmi='docker rmi'
 alias dstop='docker stop'
@@ -86,10 +85,8 @@ alias pig='pip install -U'
 alias pir='pip install -r requirements.txt'
 alias pu='pip uninstall'
 alias pug='pip uninstall -y'
-
 alias pr='pip freeze'
 alias prr='pip freeze > requirements.txt'
-
 alias pls='pip list'
 
 # python aliases
@@ -98,7 +95,6 @@ alias wkenv='pyenv activate'
 alias leaenv='pyenv deactivate'
 alias lsenv='pyenv versions'
 alias rmenv='pyenv uninstall'
-
 alias wk='workon'
 alias lea='deactivate'
 alias mkv='mkvirtualenv'
@@ -116,3 +112,6 @@ func h()
 # tar aliases
 alias tarcg='tar -cvfg'
 alias tarcg='tar -xvfg'
+
+# tail aliases
+alias tailf='tail -f'
