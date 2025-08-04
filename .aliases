@@ -115,3 +115,19 @@ alias tarcg='tar -xvfg'
 
 # tail aliases
 alias tailf='tail -f'
+
+# personal aliases
+function i() {
+  cd ~/i/$1
+}
+function dir() {
+  mkdir $1 && cd $1
+}
+function codei() {
+  i
+  if [ ! -d $@ ]; then
+    mkdir $@
+  fi
+
+  code "$@" && cd -
+}
