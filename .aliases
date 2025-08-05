@@ -121,9 +121,11 @@ alias tailf='tail -f'
 function i() {
   cd ~/i/$1
 }
+
 function dir() {
   mkdir $1 && cd $1
 }
+
 function codei() {
   i
   if [ ! -d $@ ]; then
@@ -132,6 +134,16 @@ function codei() {
 
   code "$@" && cd -
 }
+
+function traei() {
+  i
+  if [ ! -d $@ ]; then
+    mkdir $@
+  fi
+
+  trae "$@" && cd -
+}
+
 function reload() {
   exec $SHELL
 }
