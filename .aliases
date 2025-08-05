@@ -18,9 +18,8 @@ alias dre='docker restart'
 alias dlog='docker logs -f'
 alias dcp='docker cp'
 alias dr='docker run -d'
-alias drr= 'docker run -it --rm'
-func dbu()
-{
+alias drr='docker run -it --rm'
+func dbu() {
   docker build -t $1 .
 }
 
@@ -59,8 +58,7 @@ alias gsha='git rev-parse HEAD | pbcopy'
 alias ghci='gh run list -L 1'
 
 # Git clone with my gihub repositories
-func gclz()
-{
+func gclz() {
   if [ -z $1 ]; then
     echo "Usage: gclz <repo_url_or_name>"
   else
@@ -101,8 +99,7 @@ alias lea='deactivate'
 alias mkv='mkvirtualenv'
 
 # history aliases
-func h()
-{
+func h() {
   if [ -z $1 ]; then
     history
   else
@@ -111,8 +108,8 @@ func h()
 }
 
 # tar aliases
-alias tarcg='tar -cvfg'
-alias tarcg='tar -xvfg'
+alias tarc='tar -cvfg'
+alias tarx='tar -xvfg'
 
 # tail aliases
 alias tailf='tail -f'
