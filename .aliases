@@ -144,3 +144,5 @@ function traei() {
 function reload() {
   exec $SHELL
 }
+
+alias kubectl="kubecolor"
