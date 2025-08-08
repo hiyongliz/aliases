@@ -16,12 +16,12 @@ def copy_alias_file():
 
     aliases_content = ""
     for file in aliases_file:
-        with open(file, 'r', encoding="utf-8") as f:
+        with open(file, "r", encoding="utf-8") as f:
             aliases_content += f"# {file}\n"
             aliases_content += f.read()
             aliases_content += "\n"
 
-    with open(aliases_path, 'w', encoding="utf-8") as f:
+    with open(aliases_path, "w", encoding="utf-8") as f:
         f.write(aliases_content)
 
 
@@ -62,8 +62,8 @@ def main():
             return
 
     print("Adding source command to shell configuration file...")
-    with open(rc_filepath, 'a', encoding="utf-8") as f:
-        f.write('\n[ -f ~/.aliases ] && source ~/.aliases\n')
+    with open(rc_filepath, "a", encoding="utf-8") as f:
+        f.write("\n[ -f ~/.aliases ] && source ~/.aliases\n")
 
     print("Done!")
 
