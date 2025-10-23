@@ -146,3 +146,14 @@ function reload() {
 }
 
 alias kubectl="kubecolor"
+
+# base64 encode and decode
+function de64() {
+  echo $1 | base64 -d
+}
+
+function en64() {
+  echo $1 | base64
+}
+
+alias vim='nvim'
