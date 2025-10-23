@@ -157,3 +157,4 @@ function en64() {
 }
 
 alias vim='nvim'
+alias cat='bat --style=plain -P'
