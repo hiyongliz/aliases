@@ -158,3 +158,8 @@ function en64() {
 
 alias vim='nvim'
 alias cat='bat --style=plain -P'
+
+function gitset() {
+  git config --global user.name "lizhiyong"
+  git config --global user.email "lizhiyongs@sunhongs.com"
+}
