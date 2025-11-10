@@ -1,15 +1,21 @@
+import logging
 import os
 from datetime import datetime
+from pathlib import Path
+
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
-def copy_alias_file():
+def copy_alias_file() -> None:
     # Copy the .aliases file to the home directory
-    home_dir = os.path.expanduser("~")
-    aliases_path = os.path.join(home_dir, ".aliases")
+    home_dir: Path = Path.home()
+    aliases_path: Path = home_dir / ".aliases"
 
     aliases_file = []
-    for file in os.listdir(os.getcwd()):
-        if file.startswith(".") and file.endswith("aliases"):
+    for file in Path(".").iterdir():
+        if file.name.startswith(".") and file.name.endswith("aliases"):
             aliases_file.append(file)
     if not aliases_file:
         raise Exception("No alias file found in the current directory.")
@@ -25,31 +31,26 @@ def copy_alias_file():
         f.write(aliases_content)
 
 
-def main():
+def main() -> None:
     # Backup existing .aliases file
-    home_dir = os.path.expanduser("~")
-    aliases_path = os.path.join(home_dir, ".aliases")
-    if os.path.exists(aliases_path):
-        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-        backup_path = os.path.join(home_dir, f".aliases.bak.{timestamp}")
-        os.rename(aliases_path, backup_path)
-        print(f"Backup of existing .aliases created at {backup_path}")
+    home_dir: Path = Path.home()
+    aliases_path: Path = home_dir / ".aliases"
+    if aliases_path.exists():
+        timestamp: str = datetime.now().strftime("%Y%m%d%H%M%S")
+        backup_path: Path = home_dir / f".aliases.bak.{timestamp}"
+        aliases_path.rename(backup_path)
+        logging.info(f"Backup of existing .aliases created at {backup_path}")
     else:
-        print("No existing .aliases file found.")
+        logging.info("No existing .aliases file found.")
 
     # Copy new .aliases file
     copy_alias_file()
 
-    shell = os.getenv("SHELL")
+    shell: str | None = os.getenv("SHELL")
     if not shell:
         raise Exception("SHELL environment variable not set.")
 
-    if shell.endswith("/bash"):
-        rc_filepath = os.path.expanduser("~/.bashrc")
-    elif shell.endswith("/zsh"):
-        rc_filepath = os.path.expanduser("~/.zshrc")
-    else:
-        raise Exception("Unsupported shell: {}.".format(shell))
+    rc_filepath: Path = home_dir / f".{shell.split('/')[-1]}rc"
 
     with open(rc_filepath, "r", encoding="utf-8") as f:
         lines = f.readlines()
@@ -58,14 +59,14 @@ def main():
         if line.strip().startswith("#"):
             continue
         if "[ -f ~/.aliases ] && source ~/.aliases" in line:
-            print("Done!")
+            logging.info("Done!")
             return
 
-    print("Adding source command to shell configuration file...")
+    logging.info("Adding source command to shell configuration file...")
     with open(rc_filepath, "a", encoding="utf-8") as f:
         f.write("\n[ -f ~/.aliases ] && source ~/.aliases\n")
 
-    print("Done!")
+    logging.info("Done!")
 
 
 if __name__ == "__main__":
