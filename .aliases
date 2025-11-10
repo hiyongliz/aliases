@@ -158,3 +158,10 @@ function en64() {
 
 alias vim='nvim'
 alias cat='bat --style=plain -P'
+
+# UV alias
+alias uvr='uv run'
+alias uvi='uv init'
+alias uvs='uv sync'
+alias uva='uv add'
+alias uvd='uv remove'
