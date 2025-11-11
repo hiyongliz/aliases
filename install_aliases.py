@@ -19,7 +19,7 @@ def copy_alias_file() -> None:
         if file.name.startswith(".") and file.name.endswith("aliases"):
             aliases_file.append(file)
     if not aliases_file:
-        raise Exception("No alias file found in the current directory.")
+        raise FileNotFoundError("No alias file found in the current directory.")
 
     aliases_content: List[str] = []
     for file in aliases_file:
@@ -31,8 +31,7 @@ def copy_alias_file() -> None:
         f.write("\n".join(aliases_content))
 
 
-def main() -> None:
-    # Backup existing .aliases file
+def backup_existing_aliases() -> None:
     home_dir: Path = Path.home()
     aliases_path: Path = home_dir / ".aliases"
     if aliases_path.exists():
@@ -43,15 +42,13 @@ def main() -> None:
     else:
         logging.info("No existing .aliases file found.")
 
-    # Copy new .aliases file
-    copy_alias_file()
 
+def add_source_command() -> None:
     shell: str | None = os.getenv("SHELL")
     if not shell:
         raise Exception("SHELL environment variable not set.")
 
-    rc_filepath: Path = home_dir / f".{shell.split('/')[-1]}rc"
-
+    rc_filepath: Path = Path.home() / f".{shell.split('/')[-1]}rc"
     with open(rc_filepath, "r", encoding="utf-8") as f:
         lines: List[str] = f.readlines()
 
@@ -59,12 +56,22 @@ def main() -> None:
         if line.strip().startswith("#"):
             continue
         if "[ -f ~/.aliases ] && source ~/.aliases" in line:
-            logging.info("Done!")
             return
 
     logging.info("Adding source command to shell configuration file...")
     with open(rc_filepath, "a", encoding="utf-8") as f:
         f.write("\n[ -f ~/.aliases ] && source ~/.aliases\n")
+
+
+def main() -> None:
+    # Backup existing .aliases file
+    backup_existing_aliases()
+
+    # Copy new .aliases file
+    copy_alias_file()
+
+    # Add source command to shell configuration file
+    add_source_command()
 
     logging.info("Done!")
 
