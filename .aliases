@@ -19,7 +19,7 @@ alias dlog='docker logs -f'
 alias dcp='docker cp'
 alias dr='docker run -d'
 alias drr='docker run -it --rm'
-func dbu() {
+function dbu() {
   docker build -t $1 .
 }
 
@@ -58,7 +58,7 @@ alias gsha='git rev-parse HEAD | pbcopy'
 alias ghci='gh run list -L 1'
 
 # Git clone with my gihub repositories
-func gclz() {
+function gclz() {
   if [ -z $1 ]; then
     echo "Usage: gclz <repo_url_or_name>"
   else
@@ -99,7 +99,7 @@ alias lea='deactivate'
 alias mkv='mkvirtualenv'
 
 # history aliases
-func h() {
+function h() {
   if [ -z $1 ]; then
     history
   else
@@ -145,7 +145,13 @@ function reload() {
   exec $SHELL
 }
 
-alias kubectl="kubecolor"
+function kubectl() {
+  if command -v kubecolor >/dev/null 2>&1; then
+    kubecolor $@
+  else
+    command kubectl $@
+  fi
+}
 
 # base64 encode and decode
 function de64() {
@@ -156,8 +162,23 @@ function en64() {
   echo $1 | base64
 }
 
-alias vim='nvim'
-alias cat='bat --style=plain -P'
+function vim() {
+  if command -v nvim >/dev/null 2>&1; then
+    nvim $@
+  else
+    command vim $@
+  fi
+}
+
+function cat() {
+  if command -v bat >/dev/null 2>&1; then
+    bat --style=plain -P $@
+  elif command -v batcat >/dev/null 2>&1; then
+    batcat --style=plain -P $@
+  else
+    command cat $@
+  fi
+}
 
 # UV alias
 alias uvr='uv run'
