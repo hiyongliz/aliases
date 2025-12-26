@@ -13,7 +13,7 @@ def copy_alias_file() -> None:
     aliases_path: Path = home_dir / ".aliases"
 
     p = Path()
-    aliases_file = chain(p.glob("*aliases"), p.glob("*.sh"))
+    aliases_file = chain(p.glob("*aliases.sh"), p.glob("*aliases"))
     aliases_content: list[str] = []
     for file in list(aliases_file):
         with file.open(encoding="utf-8") as f:
