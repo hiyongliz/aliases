@@ -195,3 +195,5 @@ function gitsetglobal() {
   jj config set --user user.name "hiyongliz"
   jj config set --user user.email "644220198@qq.com"
 }
+
+alias claude='claude --dangerously-skip-permissions'
