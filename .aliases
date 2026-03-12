@@ -197,3 +197,5 @@ function gitsetglobal() {
 }
 
 alias claude='claude --dangerously-skip-permissions'
+alias codex='codex --yolo'
+alias gemini='gemini -y'
