@@ -20,7 +20,7 @@ alias dcp='docker cp'
 alias dr='docker run -d'
 alias drr='docker run -it --rm'
 function dbu() {
-  docker build -t $1 .
+  docker build -t "$1" .
 }
 
 # git aliases create by antfu https://github.com/antfu
@@ -59,21 +59,21 @@ alias ghci='gh run list -L 1'
 
 # Git clone with my gihub repositories
 function gclz() {
-  if [ -z $1 ]; then
+  if [ -z "$1" ]; then
     echo "Usage: gclz <repo_url_or_name>"
   else
-    current_dir=$(pwd)
-    cd ~/i
+    local current_dir=$(pwd)
+    mkdir -p "$HOME/i"
+    cd "$HOME/i" || return
     case "$1" in
       http://*|git:*|https://*)
-        git clone $1
+        git clone "$1"
         ;;
       *)
-        git clone git@github.com:hiyongliz/$1.git
+        git clone "git@github.com:hiyongliz/$1.git"
         ;;
     esac
-
-    cd "$current_dir"
+    cd "$current_dir" || return
   fi
 }
 
@@ -100,7 +100,7 @@ alias mkv='mkvirtualenv'
 
 # history aliases
 function h() {
-  if [ -z $1 ]; then
+  if [ -z "$1" ]; then
     history
   else
     history | grep "$1"
@@ -116,68 +116,63 @@ alias tailf='tail -f'
 
 # personal aliases
 function i() {
-  cd ~/i/$1
+  cd "$HOME/i/${1:-}" || return
 }
 
 function dir() {
-  mkdir $1 && cd $1
+  mkdir -p "$1" && cd "$1" || return
 }
 
 function codei() {
-  i
-  if [ ! -d $@ ]; then
-    mkdir $@
-  fi
+  local target="${1:-}"
+  local dir_path="$HOME/i"
+  [ -n "$target" ] && dir_path="$dir_path/$target"
 
-  code "$@" && cd -
+  mkdir -p "$dir_path"
+  local current_dir=$(pwd)
+  cd "$dir_path" || return
+  code .
+  cd "$current_dir" || return
 }
 
 function traei() {
-  i
-  if [ ! -d $@ ]; then
-    mkdir $@
-  fi
+  local target="${1:-}"
+  local dir_path="$HOME/i"
+  [ -n "$target" ] && dir_path="$dir_path/$target"
 
-  trae "$@" && cd -
+  mkdir -p "$dir_path"
+  local current_dir=$(pwd)
+  cd "$dir_path" || return
+  trae .
+  cd "$current_dir" || return
 }
 
 function reload() {
-  exec $SHELL
+  exec "$SHELL"
 }
 
-function kubectl() {
-  if command -v kubecolor >/dev/null 2>&1; then
-    kubecolor $@
-  else
-    command kubectl $@
-  fi
-}
+# command replacements (evaluated once at startup)
+if command -v kubecolor >/dev/null 2>&1; then
+  alias kubectl='kubecolor'
+fi
+
+if command -v nvim >/dev/null 2>&1; then
+  alias vim='nvim'
+fi
+
+if command -v bat >/dev/null 2>&1; then
+  alias cat='bat --style=plain -P'
+elif command -v batcat >/dev/null 2>&1; then
+  alias cat='batcat --style=plain -P'
+fi
 
 # base64 encode and decode
 function de64() {
-  echo $1 | base64 -d
+  echo "$1" | base64 -d
 }
 
 function en64() {
-  echo $1 | base64
-}
-
-function vim() {
-  if command -v nvim >/dev/null 2>&1; then
-    nvim $@
-  else
-    command vim $@
-  fi
-}
-
-function cat() {
-  if command -v bat >/dev/null 2>&1; then
-    bat --style=plain -P $@
-  elif command -v batcat >/dev/null 2>&1; then
-    batcat --style=plain -P $@
-  else
-    command cat $@
-  fi
+  echo "$1" | base64
 }
 
 # UV alias
