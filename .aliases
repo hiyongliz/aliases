@@ -191,6 +191,41 @@ function gitsetglobal() {
   jj config set --user user.email "644220198@qq.com"
 }
 
+# AI assistant aliases
 alias claude='claude --dangerously-skip-permissions'
 alias codex='codex --yolo'
 alias gemini='gemini -y'
+
+# Kubectl aliases
+alias k='kubectl'
+alias kg='kubectl get pod -o wide --all-namespaces | grep'
+alias kgs='kubectl get svc -o wide --all-namespaces | grep'
+alias kgd='kubectl get deployment -o wide --all-namespaces | grep'
+
+function ke() {
+  if [ -z "$1" ]; then
+    echo "Usage: ke <pod_name>"
+  else
+    ns=$(kg "$1" | awk '{print $1}')
+    if [ -n "$ns" ]; then
+      echo "Found pod '$1' in namespace '$ns'."
+      kubectl exec -it -n "$ns" "$1" -- /bin/bash
+    else
+      echo "Pod '$1' not found in any namespace."
+    fi
+  fi
+}
+
+function kl() {
+  if [ -z "$1" ]; then
+    echo "Usage: kl <pod_name>"
+  else
+    ns=$(kg "$1" | awk '{print $1}')
+    if [ -n "$ns" ]; then
+      echo "Found pod '$1' in namespace '$ns'."
+      kubectl logs -f -n "$ns" "$1"
+    else
+      echo "Pod '$1' not found in any namespace."
+    fi
+  fi
+}
