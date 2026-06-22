@@ -119,6 +119,27 @@ function i() {
   cd "$HOME/i/${1:-}" || return
 }
 
+if [ -n "$ZSH_VERSION" ]; then
+  function _i() {
+    _path_files -/ -W "$HOME/i"
+  }
+
+  function _i_register_completion() {
+    if (( $+functions[compdef] )); then
+      compdef _i i
+      unfunction _i_register_completion 2>/dev/null || true
+      autoload -Uz add-zsh-hook
+      add-zsh-hook -d precmd _i_register_completion 2>/dev/null || true
+    fi
+  }
+
+  _i_register_completion
+  if (( ! $+functions[compdef] )); then
+    autoload -Uz add-zsh-hook
+    add-zsh-hook precmd _i_register_completion
+  fi
+fi
+
 function dir() {
   mkdir -p "$1" && cd "$1" || return
 }
@@ -229,3 +250,7 @@ function kl() {
     fi
   fi
 }
+
+alias ls='lsd --group-directories-first -lhF -a'
+
+alias devin='devin --permission-mode dangerous'
