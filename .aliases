@@ -254,3 +254,5 @@ function kl() {
 alias ls='lsd --group-directories-first -lhF -a'
 
 alias devin='devin --permission-mode dangerous'
+
+alias du='gdu-go -n --depth 1 .'
